@@ -10,7 +10,16 @@ from datetime import datetime
 from pillow_heif import register_heif_opener
 import io
 
+# Načtení proměnných prostředí
 load_dotenv()
+
+# Získání API klíče buď z .env nebo ze Streamlit secrets
+API_KEY = st.secrets["ANTHROPIC_API_KEY"] if "ANTHROPIC_API_KEY" in st.secrets else os.getenv("ANTHROPIC_API_KEY")
+if not API_KEY:
+    st.error("Není nastaven API klíč pro Anthropic Claude")
+    st.stop()
+
+API_URL = "https://api.anthropic.com/v1/messages"
 
 # Registrace HEIF/HEIC handleru
 register_heif_opener()
@@ -23,9 +32,6 @@ st.set_page_config(
 
 # Nadpis
 st.title("Analyzátor jídla")
-
-API_KEY = os.getenv("ANTHROPIC_API_KEY")
-API_URL = "https://api.anthropic.com/v1/messages"
 
 # Upload souboru
 uploaded_file = st.file_uploader("Nahrajte fotografii jídla", type=['jpg', 'jpeg', 'png', 'heic', 'HEIC'])
@@ -150,7 +156,32 @@ if uploaded_file is not None:
             with st.spinner('Probíhá analýza...'):
                 base64_image = base64.b64encode(image_data).decode("utf-8")
                 
-                prompt = """Prohlédni si pozorně následující fotografii: <image> {{IMAGE}} </image> Tvým úkolem je identifikovat nejzajímavější nebo nejpozoruhodnější prvek na této fotografii. Může to být osoba, předmět, událost, detail nebo cokoliv jiného, co tě zaujme jako nejvíce pozoruhodné. Poté napiš krátký popisek tohoto prvku. Popisek by měl mít následující vlastnosti: - Délka přibližně tři až čtyři věty - Zaměření na to, co činí tento prvek tak zajímavým nebo pozoruhodným - Poskytnutí relevantních detailů, které podporují tvůj výběr jako nejzajímavějšího prvku Pamatuj, že cílem je najít a popsat to opravdu nejpozoruhodnější na celé fotografii. Nesnaž se popsat celou scénu, ale soustřeď se na ten jeden aspekt, který nejvíce vyniká svou zajímavostí nebo neobvyklostí. Svůj popisek napiš v českém jazyce. Začni zajímavě a novinářsky, ne frází typu :"Nejzajímavějším prvkem na fotce ..." a podobně. Začni čtiově, klidně i provokativně. Piš elegantně a chytře.
+                prompt = """Prohlédni si pozorně následující fotografii jídla:
+
+                <image>
+                {{IMAGE}}
+                </image>
+
+                Pečlivě si prohlédni všechny detaily zobrazené na fotografii. Zaměř se na ingredience, způsob přípravy, velikost porce a celkový vzhled jídla.
+
+                Na základě svého pozorování proveď následující úkoly:
+
+                1. Navrhni vhodný název pro toto jídlo v češtině. Název by měl být výstižný a popisný.
+
+                2. Odhadni přibližnou kalorickou hodnotu zobrazeného jídla. Vezmi v úvahu viditelné ingredience, velikost porce a předpokládaný způsob přípravy.
+
+                3. Promysli si dané jídlo a napiš o něm základní informaci.
+
+                Svou odpověď napiš v následujícím formátu:
+
+                Název jídla:
+                [Zde uveď navržený název jídla v češtině]
+
+                Kalorická hodnota:
+                [Zde uveď odhadovanou kalorickou hodnotu jídla v češtině, včetně zdůvodnění svého odhadu]
+                
+                Poznámky:
+                [Zde napiš vše, co o jídle víš]
                 """
 
                 try:
