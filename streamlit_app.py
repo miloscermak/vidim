@@ -31,10 +31,10 @@ st.set_page_config(
 )
 
 # Nadpis
-st.title("Analyzátor jídla")
+st.title("Co vidím?")
 
 # Upload souboru
-uploaded_file = st.file_uploader("Nahrajte fotografii jídla", type=['jpg', 'jpeg', 'png', 'heic', 'HEIC'])
+uploaded_file = st.file_uploader("Nahrajte fotografii", type=['jpg', 'jpeg', 'png', 'heic', 'HEIC'])
 
 def get_image_metadata(image_file, file_type=None):
     """Funkce pro získání metadat z obrázku"""
