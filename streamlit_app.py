@@ -180,7 +180,7 @@ if uploaded_file is not None:
         # Odstraníme všechny debugovací výpisy
         
         # Tlačítko pro analýzu
-        if st.button("Analyzovat jídlo"):
+        if st.button("Chci si přečíst popisek"):
             with st.spinner('Probíhá analýza...'):
                 base64_image = base64.b64encode(image_data).decode("utf-8")
                 
