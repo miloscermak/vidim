@@ -1,8 +1,10 @@
 """
-Co vidím? - Analyzátor fotografií pomocí Claude AI
+Generátor Image Promptů - Vytváření promptů z fotografií pomocí Claude AI
 
-Tato aplikace umožňuje nahrát fotografii a pomocí Claude AI získat detailní
-popis toho, co je na obrázku zachyceno. Podporuje různé formáty včetně HEIC z iPhonů.
+Tato aplikace umožňuje nahrát fotografii a pomocí Claude AI automaticky vygenerovat
+detailní popis v češtině, který lze použít jako prompt pro generování podobného obrázku
+v AI nástrojích (DALL-E, Midjourney, Stable Diffusion atd.). Podporuje různé formáty
+včetně HEIC z iPhonů.
 """
 
 import streamlit as st
@@ -40,12 +42,12 @@ register_heif_opener()
 
 # Konfigurace stránky
 st.set_page_config(
-    page_title="Analyzátor jídla",
+    page_title="Generátor Image Promptů",
     layout="centered"
 )
 
 # Hlavní nadpis aplikace
-st.title("Co vidím?")
+st.title("Generátor Image Promptů")
 
 # Widget pro nahrání souboru - podporuje běžné formáty + HEIC z iPhonů
 uploaded_file = st.file_uploader("Nahrajte fotografii", type=['jpg', 'jpeg', 'png', 'heic', 'HEIC'])
@@ -124,14 +126,38 @@ if uploaded_file is not None:
         image = Image.open(io.BytesIO(image_data))
         st.image(image, caption="Náhled obrázku", use_container_width=True)
 
-        # Tlačítko pro spuštění AI analýzy
-        if st.button("Chci si přečíst popisek"):
-            with st.spinner('Probíhá analýza...'):
+        # Tlačítko pro spuštění AI generování promptu
+        if st.button("Generovat prompt"):
+            with st.spinner('Generuji prompt...'):
                 # Převod obrázku do Base64 formátu pro odeslání do API
                 base64_image = base64.b64encode(image_data).decode("utf-8")
 
-                # Prompt pro Claude AI - instrukce pro analýzu obrázku
-                prompt = """Prohlédni si pozorně následující fotografii: <image> {{IMAGE}} </image> Tvým úkolem je identifikovat nejzajímavější nebo nejpozoruhodnější prvek na této foto[...]
+                # Prompt pro Claude AI - generování popisu pro image prompt
+                prompt = """Tvým úkolem je vytvořit detailní popis v češtině, který by mohl sloužit jako prompt pro generování podobného obrázku. Zaměř se na tyto klíčové aspekty:
+
+**Obsah a kompozice:**
+- Hlavní objekty, postavy nebo prvky na obrázku
+- Jejich pozice a vzájemné vztahy
+- Kompoziční uspořádání (popředí, pozadí, střed)
+
+**Vizuální styl a technika:**
+- Umělecký styl (fotorealistický, malovaný, kreslený, digitální art, akvarel, olej, atd.)
+- Barevná paleta a nálada
+- Osvětlení a stíny
+- Textura a detaily
+
+**Technické parametry:**
+- Formát a orientace (na výšku, na šířku, čtvercový)
+- Úhel pohledu (zblízka, zdálky, z ptačí perspektivy, atd.)
+- Hloubka ostrosti
+
+**Atmosféra a nálada:**
+- Celkový dojem a emocionální ladění
+- Prostředí a kontext
+
+Napiš prompt v češtině tak, aby byl dostatečně specifický pro vytvoření podobného obrázku, ale zároveň srozumitelný. Používej přesné české termíny a vyhni se zbytečně složitým formulacím.
+
+Finální prompt ať je maximálně 120 slov.
                 """
 
                 try:
@@ -174,8 +200,8 @@ if uploaded_file is not None:
                     # Zpracování odpovědi
                     if response.status_code == 200:
                         result = response.json()
-                        st.success("Analýza dokončena!")
-                        # Zobrazení textu z odpovědi Claude AI
+                        st.success("Prompt byl úspěšně vygenerován!")
+                        # Zobrazení vygenerovaného promptu z Claude AI
                         st.write(result['content'][0]['text'])
                     else:
                         st.error(f"Chyba API: {response.status_code} - {response.text}")

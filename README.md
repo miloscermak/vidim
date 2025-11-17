@@ -1,16 +1,18 @@
-# Co vidím? - Analyzátor fotografií
+# Generátor Image Promptů
 
 ## 📋 Popis aplikace
 
-**vidim** je webová aplikace postavená na frameworku Streamlit, která využívá umělou inteligenci Claude AI k analýze a popisu fotografií. Aplikace dokáže zpracovat různé formáty obrázků včetně HEIC formátu z iPhonů a poskytnout detailní popis toho, co je na fotografii zachyceno.
+**vidim** je webová aplikace postavená na frameworku Streamlit, která využívá umělou inteligenci Claude AI k automatickému generování detailních promptů z fotografií. Aplikace dokáže zpracovat různé formáty obrázků včetně HEIC formátu z iPhonů a vytvořit profesionální český popis, který lze použít jako prompt pro generování podobných obrázků v AI nástrojích jako DALL-E, Midjourney, Stable Diffusion a dalších.
 
 ## ✨ Klíčové funkce
 
 - **📸 Nahrávání fotografií** - Podporuje formáty: JPG, JPEG, PNG, HEIC
 - **🔄 Automatická rotace** - Správně zobrazí fotografie podle EXIF orientace
-- **🤖 AI Analýza** - Využívá Claude Sonnet 4.5 model pro detailní popis obsahu fotografie
+- **🤖 AI Generování promptů** - Využívá Claude Sonnet 4.5 model pro vytvoření detailního popisu v češtině
+- **🎨 Profesionální struktura** - Generuje prompty s důrazem na kompozici, styl, techniku a atmosféru
 - **📱 Podpora HEIC** - Plná podpora formátu HEIC z Apple zařízení
-- **🖼️ Náhled** - Zobrazení náhledu nahrané fotografie před analýzou
+- **🖼️ Náhled** - Zobrazení náhledu nahrané fotografie před generováním promptu
+- **📝 Optimalizovaná délka** - Prompty jsou omezeny na max. 120 slov pro efektivní použití
 
 ## 🛠️ Technologie
 
@@ -56,11 +58,16 @@ Aplikace se otevře v prohlížeči na adrese `http://localhost:8501`
    - Aplikace detekuje formát obrázku
    - V případě HEIC formátu ho konvertuje na JPEG
    - Načte EXIF metadata a upraví orientaci pokud je potřeba
-3. **AI Analýza**:
+3. **AI Generování promptu**:
    - Obrázek se zakóduje do Base64 formátu
-   - Odešle se dotaz na Claude API s fotografií
-   - Claude AI analyzuje obsah fotografie a vrátí detailní popis
-4. **Zobrazení výsledku** - Aplikace zobrazí textový popis toho, co Claude AI na fotografii rozpoznal
+   - Odešle se dotaz na Claude API s fotografií a instrukcemi pro generování promptu
+   - Claude AI analyzuje obrázek podle těchto aspektů:
+     - **Obsah a kompozice** - objekty, postavy, jejich vztahy a uspořádání
+     - **Vizuální styl** - umělecký styl, barvy, osvětlení, textury
+     - **Technické parametry** - formát, orientace, úhel pohledu, ostrost
+     - **Atmosféra** - nálada, emoce, prostředí, kontext
+   - Vrátí strukturovaný český prompt o max. 120 slovech
+4. **Zobrazení výsledku** - Aplikace zobrazí vygenerovaný prompt, který lze zkopírovat a použít v AI nástrojích pro generování obrázků
 
 ## 🔑 Potřebné API klíče
 
