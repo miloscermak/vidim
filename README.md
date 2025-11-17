@@ -15,7 +15,7 @@
 ## 🛠️ Technologie
 
 - **Streamlit** - Webový framework pro rychlé vytvoření UI
-- **Anthropic Claude API** - AI model pro analýzu obrázků (Claude Sonnet 4.5)
+- **Anthropic Claude API** - AI model pro analýzu obrázků (Claude 3.5 Sonnet)
 - **Pillow (PIL)** - Zpracování obrázků
 - **pillow-heif** - Podpora HEIC/HEIF formátů
 - **python-dotenv** - Správa environment proměnných
