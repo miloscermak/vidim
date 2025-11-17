@@ -8,14 +8,14 @@
 
 - **📸 Nahrávání fotografií** - Podporuje formáty: JPG, JPEG, PNG, HEIC
 - **🔄 Automatická rotace** - Správně zobrazí fotografie podle EXIF orientace
-- **🤖 AI Analýza** - Využívá Claude 3.5 Sonnet model pro detailní popis obsahu fotografie
+- **🤖 AI Analýza** - Využívá Claude Sonnet 4.5 model pro detailní popis obsahu fotografie
 - **📱 Podpora HEIC** - Plná podpora formátu HEIC z Apple zařízení
 - **🖼️ Náhled** - Zobrazení náhledu nahrané fotografie před analýzou
 
 ## 🛠️ Technologie
 
 - **Streamlit** - Webový framework pro rychlé vytvoření UI
-- **Anthropic Claude API** - AI model pro analýzu obrázků (Claude 3.5 Sonnet)
+- **Anthropic Claude API** - AI model pro analýzu obrázků (Claude Sonnet 4.5)
 - **Pillow (PIL)** - Zpracování obrázků
 - **pillow-heif** - Podpora HEIC/HEIF formátů
 - **python-dotenv** - Správa environment proměnných

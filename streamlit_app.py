@@ -144,7 +144,7 @@ if uploaded_file is not None:
 
                     # Tělo požadavku s obrázkem a promptem
                     data = {
-                        "model": "claude-3-5-sonnet-20240620",  # Claude 3.5 Sonnet model
+                        "model": "claude-sonnet-4-5-20250929",  # Claude Sonnet 4.5 model
                         "max_tokens": 5000,  # Maximální délka odpovědi
                         "messages": [
                             {
